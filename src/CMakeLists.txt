@@ -1,7 +1,3 @@
-# Includes
-include_directories(BEFORE ${CMAKE_CURRENT_BINARY_DIR}
-                     ${CMAKE_CURRENT_SOURCE_DIR}
-                     )
 
 # Version information
 set(SNAPSHOT_VERSION "unknown")
@@ -19,19 +15,26 @@ message(STATUS "Detected git snapshot version: ${SNAPSHOT_VERSION}")
 configure_file(ftdi_version_i.h.in "${CMAKE_CURRENT_BINARY_DIR}/ftdi_version_i.h" @ONLY)
 
 # Targets
-set(c_sources     ${CMAKE_CURRENT_SOURCE_DIR}/ftdi.c ${CMAKE_CURRENT_SOURCE_DIR}/ftdi_stream.c CACHE INTERNAL "List of c sources" )
-set(c_headers     ${CMAKE_CURRENT_SOURCE_DIR}/ftdi.h CACHE INTERNAL "List of c headers" )
+set(c_sources
+  ftdi.c
+  ftdi_stream.c
+)
 
-add_library(ftdi1 SHARED ${c_sources})
+set(c_headers
+  ftdi.h
+  "${CMAKE_CURRENT_BINARY_DIR}/ftdi_version_i.h"
+)
+
+add_library(ftdi1 SHARED ${c_sources} ${c_headers})
+target_include_directories(ftdi1 PUBLIC "${CMAKE_CURRENT_BINARY_DIR}")
 
 math(EXPR VERSION_FIXUP "${MAJOR_VERSION} + 1")    # Compatibility with previous releases
 set_target_properties(ftdi1 PROPERTIES VERSION ${VERSION_FIXUP}.${MINOR_VERSION}.0 SOVERSION 2)
 # Prevent clobbering each other during the build
 set_target_properties ( ftdi1 PROPERTIES CLEAN_DIRECT_OUTPUT 1 )
 
-
 # Dependencies
-target_link_libraries(ftdi1 ${LIBUSB_LIBRARIES})
+target_link_libraries(ftdi1 PRIVATE LIBUSB::LIBUSB)
 
 install ( TARGETS ftdi1
           RUNTIME DESTINATION bin
