@@ -8,11 +8,12 @@ set(SNAPSHOT_VERSION "unknown")
 execute_process(COMMAND git describe
                 OUTPUT_VARIABLE GIT_DESCRIBE_OUTPUT
                 RESULT_VARIABLE GIT_DESCRIBE_RESULT
+                ERROR_QUIET
                 OUTPUT_STRIP_TRAILING_WHITESPACE
                 )
 if(${GIT_DESCRIBE_RESULT} STREQUAL 0)
   set(SNAPSHOT_VERSION ${GIT_DESCRIBE_OUTPUT})
-endif ()
+endif()
 message(STATUS "Detected git snapshot version: ${SNAPSHOT_VERSION}")
 
 configure_file(ftdi_version_i.h.in "${CMAKE_CURRENT_BINARY_DIR}/ftdi_version_i.h" @ONLY)
