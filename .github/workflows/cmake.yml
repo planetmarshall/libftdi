@@ -10,8 +10,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-18.04]
-        shared: [ON, OFF]
+        os: [ubuntu-18.04, windows-2019, macos-10.15]
+        shared: [shared, static]
 
     steps:
       - uses: actions/checkout@v2
@@ -43,7 +43,12 @@ jobs:
         shell: bash
         working-directory: ${{ github.workspace }}/build
         run: |
-          cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_SHARED_LIBS=${{ matrix.shared }} -DFTDIPP=ON
+          SHARED=OFF
+          if [[ ${{ matrix.shared }} == ON ]]
+          then
+            SHARED=ON
+          fi
+          cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_SHARED_LIBS=$SHARED -DFTDIPP=ON
         env:
           PKG_CONFIG_PATH: ${{ github.workspace }}/build
 
