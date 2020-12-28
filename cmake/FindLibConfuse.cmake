@@ -11,9 +11,9 @@ include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(LibConfuse DEFAULT_MSG LibConfuse_LIBRARY LibConfuse_INCLUDE_DIR)
 
 if (LibConfuse_FOUND AND NOT TARGET LibConfuse::LibConfuse)
-  add_library(LibConfuse::LibConfuse UNKNOWN IMPORTED)
+  add_library(LibConfuse::LibConfuse INTERFACE IMPORTED)
   set_target_properties(LibConfuse::LibConfuse PROPERTIES
-          IMPORTED_LOCATION "${LibConfuse_LIBRARY}"
+          INTERFACE_LINK_LIBRARIES "${LibConfuse_LIBRARY}"
           INTERFACE_INCLUDE_DIRECTORIES "${LibConfuse_INCLUDE_DIR}"
           )
 endif()

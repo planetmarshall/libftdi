@@ -17,6 +17,7 @@ set(CMAKE_COLOR_MAKEFILE ON)
 cmake_minimum_required(VERSION 2.6 FATAL_ERROR)
 cmake_policy(SET CMP0057 NEW)
 cmake_policy(SET CMP0011 NEW)
+cmake_policy(SET CMP0099 NEW)
 
 add_definitions(-Wall)
 

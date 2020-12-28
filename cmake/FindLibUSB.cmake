@@ -9,16 +9,17 @@ include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(LibUSB DEFAULT_MSG LibUSB_LIBRARY LibUSB_INCLUDE_DIR)
 
 if (LibUSB_FOUND AND NOT TARGET LibUSB::LibUSB)
-    add_library(LibUSB::LibUSB UNKNOWN IMPORTED)
-    set_target_properties(LibUSB::LibUSB PROPERTIES
-            IMPORTED_LOCATION "${LibUSB_LIBRARY}"
-            INTERFACE_INCLUDE_DIRECTORIES "${LibUSB_INCLUDE_DIR}"
-            )
+    add_library(LibUSB::LibUSB INTERFACE IMPORTED)
+    set(_libusb_libraries ${LibUSB_LIBRARY})
     if (UNIX)
         find_package(Threads)
-        set_target_properties(LibUSB::LibUSB PROPERTIES INTERFACE_LINK_LIBRARIES Threads::Threads)
-        set_target_properties(LibUSB::LibUSB PROPERTIES INTERFACE_LINK_LIBRARIES udev)
+        list(APPEND _libusb_libraries Threads::Threads)
+        list(APPEND _libusb_libraries udev)
     endif()
+    set_target_properties(LibUSB::LibUSB PROPERTIES
+            INTERFACE_LINK_LIBRARIES "${_libusb_libraries}"
+            INTERFACE_INCLUDE_DIRECTORIES "${LibUSB_INCLUDE_DIR}"
+    )
 
 endif()
 
