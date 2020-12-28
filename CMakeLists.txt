@@ -1,11 +1,13 @@
 # Project
 project(libftdi1 C)
+
 set(MAJOR_VERSION 1)
 set(MINOR_VERSION 5)
 set(PACKAGE libftdi1)
 set(VERSION_STRING ${MAJOR_VERSION}.${MINOR_VERSION})
 set(VERSION ${VERSION_STRING})
-set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
+set(CMAKE_MODULE_PATH "${CMAKE_BINARY_DIR};${CMAKE_SOURCE_DIR}/cmake")
+message(STATUS ${CMAKE_MODULE_PATH})
 
 # CMake
 if("${CMAKE_BUILD_TYPE}" STREQUAL "")
@@ -13,10 +15,19 @@ if("${CMAKE_BUILD_TYPE}" STREQUAL "")
 endif("${CMAKE_BUILD_TYPE}" STREQUAL "")
 set(CMAKE_COLOR_MAKEFILE ON)
 cmake_minimum_required(VERSION 2.6 FATAL_ERROR)
+cmake_policy(SET CMP0057 NEW)
+cmake_policy(SET CMP0011 NEW)
 
 add_definitions(-Wall)
 
 include(CMakeOptions.txt)
+
+set(as_subproject libftdi1)
+macro(find_package)
+    if(NOT "${ARG0}" IN_LIST as_subproject)
+        _find_package(${ARGV})
+    endif()
+endmacro()
 
 # Debug build
 message("-- Build type: ${CMAKE_BUILD_TYPE}")
@@ -29,8 +40,11 @@ find_package ( LIBUSB REQUIRED )
 include_directories ( ${LIBUSB_INCLUDE_DIR} )
 
 # Find Boost
+if (BUILD_TESTS)
+    list(APPEND BOOST_COMPONENTS unit_test)
+endif()
 if (FTDIPP OR BUILD_TESTS)
-  find_package( Boost REQUIRED )
+  find_package(Boost REQUIRED COMPONENTS ${BOOST_COMPONENTS})
 endif()
 
 # Set components
