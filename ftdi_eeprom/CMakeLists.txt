@@ -13,8 +13,6 @@ endif(NOT CMAKE_INSTALL_DOCDIR)
 
 message(STATUS "Building ftdi_eeprom")
 
-
-
 # Version defines
 set ( EEPROM_MAJOR_VERSION 0 )
 set ( EEPROM_MINOR_VERSION 17 )

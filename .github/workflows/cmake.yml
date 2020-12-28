@@ -11,6 +11,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-18.04]
+        shared: [ON, OFF]
 
     steps:
       - uses: actions/checkout@v2
@@ -42,7 +43,7 @@ jobs:
         shell: bash
         working-directory: ${{ github.workspace }}/build
         run: |
-          cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DFTDIPP=ON
+          cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_SHARED_LIBS=${{ matrix.shared }} -DFTDIPP=ON
         env:
           PKG_CONFIG_PATH: ${{ github.workspace }}/build
 
