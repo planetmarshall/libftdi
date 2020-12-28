@@ -36,7 +36,7 @@ target_link_libraries ( ftdi_eeprom
         PRIVATE
         LibFTDI::ftdi1
         LibConfuse::LibConfuse
-        libusb::libusb
+        LibUSB::LibUSB
         )
 target_include_directories(ftdi_eeprom PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 

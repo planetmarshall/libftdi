@@ -36,7 +36,7 @@ if(${CMAKE_BUILD_TYPE} STREQUAL Debug)
 endif(${CMAKE_BUILD_TYPE} STREQUAL Debug)
 
 # find libusb
-find_package (libusb REQUIRED)
+find_package (LibUSB REQUIRED)
 
 # Find Boost
 if (BUILD_TESTS)
