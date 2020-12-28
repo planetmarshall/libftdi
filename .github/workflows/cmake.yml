@@ -50,7 +50,7 @@ jobs:
           fi
           cmake .. \
             -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
-            -DCMAKE_MODULE_PATH="$GITHUB_WORKSPACE/build"
+            -DCMAKE_MODULE_PATH="$GITHUB_WORKSPACE/build" \
             -DBUILD_SHARED_LIBS=$SHARED \
             -DFTDIPP=ON
         env:
