@@ -1,4 +1,4 @@
-find_package ( Confuse REQUIRED )
+find_package ( LibConfuse REQUIRED )
 find_package ( Libintl )
 
 # determine docdir
@@ -13,7 +13,6 @@ endif(NOT CMAKE_INSTALL_DOCDIR)
 
 message(STATUS "Building ftdi_eeprom")
 
-include_directories ( ${CONFUSE_INCLUDE_DIRS} )
 list ( APPEND libs ${CONFUSE_LIBRARIES} )
 
 if ( LIBINTL_FOUND )
@@ -27,16 +26,20 @@ set ( EEPROM_MAJOR_VERSION 0 )
 set ( EEPROM_MINOR_VERSION 17 )
 set ( EEPROM_VERSION_STRING ${EEPROM_MAJOR_VERSION}.${EEPROM_MINOR_VERSION} )
 
-include_directories ( BEFORE ${CMAKE_SOURCE_DIR}/src )
-include_directories ( BEFORE ${CMAKE_CURRENT_BINARY_DIR} )
-
 configure_file(
                ftdi_eeprom_version.h.in
               ${CMAKE_CURRENT_BINARY_DIR}/ftdi_eeprom_version.h
 )
 
 add_executable ( ftdi_eeprom main.c )
-target_link_libraries ( ftdi_eeprom ftdi1 ${CONFUSE_LIBRARIES} )
+target_link_libraries ( ftdi_eeprom
+        PRIVATE
+        LibFTDI::ftdi1
+        LibConfuse::LibConfuse
+        libusb::libusb
+        )
+target_include_directories(ftdi_eeprom PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+
 if ( LIBINTL_FOUND )
   target_link_libraries ( ftdi_eeprom ${LIBINTL_LIBRARIES} )
 endif ()
