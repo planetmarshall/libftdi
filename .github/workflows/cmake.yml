@@ -48,7 +48,11 @@ jobs:
           then
             SHARED=ON
           fi
-          cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_SHARED_LIBS=$SHARED -DFTDIPP=ON
+          cmake .. \
+            -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
+            -DCMAKE_MODULE_PATH="$GITHUB_WORKSPACE/build"
+            -DBUILD_SHARED_LIBS=$SHARED \
+            -DFTDIPP=ON
         env:
           PKG_CONFIG_PATH: ${{ github.workspace }}/build
 
