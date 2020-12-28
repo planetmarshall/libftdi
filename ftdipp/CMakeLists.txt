@@ -18,7 +18,7 @@ set_target_properties(ftdipp1 PROPERTIES CLEAN_DIRECT_OUTPUT 1)
 # Dependencies
 target_link_libraries(ftdipp1
 	PRIVATE
-		LIBUSB::LIBUSB
+		libusb::libusb
 	PUBLIC
 		LibFTDI::ftdi1
 		Boost::headers

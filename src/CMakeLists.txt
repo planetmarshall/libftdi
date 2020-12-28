@@ -39,7 +39,7 @@ set_target_properties(ftdi1 PROPERTIES VERSION ${VERSION_FIXUP}.${MINOR_VERSION}
 set_target_properties ( ftdi1 PROPERTIES CLEAN_DIRECT_OUTPUT 1 )
 
 # Dependencies
-target_link_libraries(ftdi1 PRIVATE LIBUSB::LIBUSB)
+target_link_libraries(ftdi1 PRIVATE libusb::libusb)
 
 install ( TARGETS ftdi1
           RUNTIME DESTINATION bin
