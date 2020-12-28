@@ -254,7 +254,7 @@ include(CPack)
 
 message (STATUS "Summary of build options:
 
-  Build static libs: ${STATICLIBS}
+  Build shared libs: ${BUILD_SHARED_LIBS}
   Build C++ bindings: ${FTDIPP}
   Build Python bindings: ${PYTHON_BINDINGS}
   Build ftdi_eeprom: ${FTDI_EEPROM}

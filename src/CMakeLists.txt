@@ -25,7 +25,7 @@ set(c_headers
   "${CMAKE_CURRENT_BINARY_DIR}/ftdi_version_i.h"
 )
 
-add_library(ftdi1 SHARED ${c_sources} ${c_headers})
+add_library(ftdi1 ${c_sources} ${c_headers})
 add_library(LibFTDI::ftdi1 ALIAS ftdi1)
 target_include_directories(ftdi1 PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
@@ -38,7 +38,6 @@ set_target_properties(ftdi1 PROPERTIES VERSION ${VERSION_FIXUP}.${MINOR_VERSION}
 # Prevent clobbering each other during the build
 set_target_properties ( ftdi1 PROPERTIES CLEAN_DIRECT_OUTPUT 1 )
 
-# Dependencies
 target_link_libraries(ftdi1 PRIVATE LibUSB::LibUSB)
 
 install ( TARGETS ftdi1
@@ -46,17 +45,6 @@ install ( TARGETS ftdi1
           LIBRARY DESTINATION lib${LIB_SUFFIX}
           ARCHIVE DESTINATION lib${LIB_SUFFIX}
         )
-
-if ( STATICLIBS )
-  add_library(ftdi1-static STATIC ${c_sources})
-  target_link_libraries(ftdi1-static ${LIBUSB_LIBRARIES})
-  set_target_properties(ftdi1-static PROPERTIES OUTPUT_NAME "ftdi1")
-  set_target_properties(ftdi1-static PROPERTIES CLEAN_DIRECT_OUTPUT 1)
-  install ( TARGETS ftdi1-static
-            ARCHIVE DESTINATION lib${LIB_SUFFIX}
-            COMPONENT staticlibs
-          )
-endif ()
 
 install ( FILES ${c_headers}
           DESTINATION include/${PROJECT_NAME}
