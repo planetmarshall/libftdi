@@ -1,5 +1,5 @@
-find_package ( LibConfuse REQUIRED )
-find_package ( Libintl )
+find_package (LibConfuse REQUIRED )
+find_package (Intl)
 
 # determine docdir
 include(GNUInstallDirs)
@@ -13,12 +13,6 @@ endif(NOT CMAKE_INSTALL_DOCDIR)
 
 message(STATUS "Building ftdi_eeprom")
 
-list ( APPEND libs ${CONFUSE_LIBRARIES} )
-
-if ( LIBINTL_FOUND )
-  include_directories ( ${LIBINTL_INCLUDE_DIR} )
-  list ( APPEND libs ${LIBINTL_LIBRARIES} )
-endif ()
 
 
 # Version defines
@@ -32,6 +26,7 @@ configure_file(
 )
 
 add_executable ( ftdi_eeprom main.c )
+find_package(Threads)
 target_link_libraries ( ftdi_eeprom
         PRIVATE
         LibFTDI::ftdi1
@@ -40,8 +35,10 @@ target_link_libraries ( ftdi_eeprom
         )
 target_include_directories(ftdi_eeprom PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
-if ( LIBINTL_FOUND )
-  target_link_libraries ( ftdi_eeprom ${LIBINTL_LIBRARIES} )
+if ( Intl_FOUND )
+  target_link_libraries ( ftdi_eeprom PRIVATE ${Intl_LIBRARIES} )
+  target_include_directories ( ftdi_eeprom PRIVATE ${Intl_INCLUDE_DIRS})
 endif ()
+
 install ( TARGETS ftdi_eeprom DESTINATION bin )
 install ( FILES example.conf DESTINATION ${CMAKE_INSTALL_DOCDIR} )
