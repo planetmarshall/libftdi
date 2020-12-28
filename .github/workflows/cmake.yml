@@ -3,17 +3,19 @@ name: CMake
 on: [push]
 
 env:
-  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
   BUILD_TYPE: Release
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-18.04, windows-2019, macos-10.15]
 
     steps:
       - uses: actions/checkout@v2
 
-      - name: Set up Python ${{ matrix.python-version }}
+      - name: Set up Python
         uses: actions/setup-python@v2
         with:
           python-version: 3.8
@@ -23,8 +25,8 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install conan --upgrade
-          mkdir build
-          cat >> build/conanfile.txt <<- EOF
+          mkdir -p ${GITHUB_WORKSPACE}/build
+          cat >> ${GITHUB_WORKSPACE}/build/conanfile.txt <<- EOF
           [requires]
           libusb/1.0.23
           boost/1.74.0
@@ -34,17 +36,17 @@ jobs:
           pkg_config
           cmake_find_package
           EOF
-          conan install build/conanfile.txt -if build
-
+          conan install ${GITHUB_WORKSPACE}/build/conanfile.txt -if build
 
       - name: Configure CMake
         shell: bash
-        working-directory: ${{runner.workspace}}/build
+        working-directory: ${{ github.workspace }}/build
         run: |
-          export PKG_CONFIG_PATH=${{runner.workspace}}/build
-          cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DFTDIPP=ON -G Ninja
+          cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DFTDIPP=ON
+        env:
+          PKG_CONFIG_PATH: ${{ github.workspace }}/build
 
       - name: Build
-        working-directory: ${{runner.workspace}}/build
+        working-directory: ${{ github.workspace }}/build
         shell: bash
         run: cmake --build . --config $BUILD_TYPE
