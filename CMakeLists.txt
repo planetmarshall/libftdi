@@ -35,11 +35,8 @@ endif(${CMAKE_BUILD_TYPE} STREQUAL Debug)
 
 find_package (LibUSB REQUIRED)
 
-if (BUILD_TESTS)
-    list(APPEND BOOST_COMPONENTS unit_test)
-endif()
-if (FTDIPP OR BUILD_TESTS)
-  find_package(Boost REQUIRED COMPONENTS ${BOOST_COMPONENTS})
+if (FTDIPP)
+  find_package(Boost REQUIRED)
 endif()
 
 # Set components
