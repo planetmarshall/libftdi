@@ -14,7 +14,9 @@ if (LibUSB_FOUND AND NOT TARGET LibUSB::LibUSB)
     if (UNIX)
         find_package(Threads)
         list(APPEND _libusb_libraries Threads::Threads)
-        list(APPEND _libusb_libraries udev)
+        if (NOT APPLE)
+            list(APPEND _libusb_libraries udev)
+        endif()
     endif()
     set_target_properties(LibUSB::LibUSB PROPERTIES
             INTERFACE_LINK_LIBRARIES "${_libusb_libraries}"
