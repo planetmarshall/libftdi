@@ -20,9 +20,9 @@ add_definitions(-Wall)
 
 include(CMakeOptions.txt)
 
-set(as_subproject libftdi1)
+set(as_subproject LibFTDI)
 macro(find_package)
-    if(NOT "${ARG0}" IN_LIST as_subproject)
+    if(NOT ${ARGV0} IN_LIST as_subproject)
         _find_package(${ARGV})
     endif()
 endmacro()

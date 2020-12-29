@@ -1,13 +1,10 @@
-cmake_minimum_required ( VERSION 2.8 )
-
+cmake_minimum_required ( VERSION 3.0 )
 project ( example C )
 
-find_package ( LibFTDI1 NO_MODULE REQUIRED )
-include ( ${LIBFTDI_USE_FILE} )
+find_package ( LibFTDI NO_MODULE REQUIRED )
 
 add_executable ( example main.c )
-target_link_libraries( example ${LIBFTDI_LIBRARIES} )
+target_link_libraries( example PRIVATE LibFTDI::ftdi1 )
 
-install ( TARGETS example
-          DESTINATION bin )
+install ( TARGETS example DESTINATION bin )
           
