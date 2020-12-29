@@ -5,6 +5,10 @@ on: [push]
 env:
   BUILD_TYPE: Release
 
+defaults:
+  run:
+    shell: bash
+
 jobs:
   build:
     runs-on: ${{ matrix.os }}
@@ -22,7 +26,6 @@ jobs:
           python-version: 3.8
 
       - name: Install Conan and Dependencies
-        shell: bash
         run: |
           python -m pip install --upgrade pip
           pip install conan --upgrade
@@ -33,6 +36,9 @@ jobs:
           boost/1.74.0
           libconfuse/3.3
 
+          [options]
+          boost:shared=True
+
           [generators]
           pkg_config
           cmake_find_package
@@ -40,8 +46,6 @@ jobs:
           conan install ${GITHUB_WORKSPACE}/build/conanfile.txt -if build
 
       - name: Configure CMake
-        shell: bash
-        working-directory: ${{ github.workspace }}/build
         run: |
           SHARED=OFF
           if [[ ${{ matrix.shared }} == ON ]]
@@ -55,8 +59,12 @@ jobs:
             -DFTDIPP=ON
         env:
           PKG_CONFIG_PATH: ${{ github.workspace }}/build
+        working-directory: ${{ github.workspace }}/build
 
       - name: Build
-        working-directory: ${{ github.workspace }}/build
-        shell: bash
         run: cmake --build . --config $BUILD_TYPE
+        working-directory: ${{ github.workspace }}/build
+
+      - name: Build
+        run: ctest -vvv
+        working-directory: ${{ github.workspace }}/build
