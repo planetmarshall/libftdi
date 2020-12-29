@@ -16,6 +16,9 @@ jobs:
       matrix:
         os: [ubuntu-18.04, macos-10.15]
         shared: [shared, static]
+        include:
+          - os: ubuntu-18.04
+            conan-settings: -s compiler.libcxx=libstdc++11
 
     steps:
       - uses: actions/checkout@v2
@@ -43,7 +46,7 @@ jobs:
           pkg_config
           cmake_find_package
           EOF
-          conan install ${GITHUB_WORKSPACE}/build/conanfile.txt -if build
+          conan install ${GITHUB_WORKSPACE}/build/conanfile.txt -if build ${{ matrix.conan-settings }}
 
       - name: Configure CMake
         run: |
