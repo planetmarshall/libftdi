@@ -8,7 +8,6 @@ set(cpp_headers ${CMAKE_CURRENT_SOURCE_DIR}/ftdi.hpp CACHE INTERNAL "List of cpp
 add_library(ftdipp1 ${cpp_sources})
 add_library(LibFTDI::ftdipp1 ALIAS ftdipp1)
 
-
 math(EXPR VERSION_FIXUP "${MAJOR_VERSION} + 1")    # Compatibility with previous releases
 set_target_properties(ftdipp1 PROPERTIES VERSION ${VERSION_FIXUP}.${MINOR_VERSION}.0 SOVERSION 3)
 
@@ -23,6 +22,10 @@ target_link_libraries(ftdipp1
 		LibFTDI::ftdi1
 		Boost::headers
 )
+target_include_directories(ftdipp1 PUBLIC
+		$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+		$<INSTALL_INTERFACE:include/libftdi1>
+		)
 
 install ( TARGETS ftdipp1
 					RUNTIME DESTINATION bin
