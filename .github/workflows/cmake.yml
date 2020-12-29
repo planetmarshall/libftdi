@@ -66,6 +66,10 @@ jobs:
         run: cmake --build . --config $BUILD_TYPE
         working-directory: ${{ github.workspace }}/build
 
-      - name: Build
+      - name: Test
         run: ctest -vvv
+        working-directory: ${{ github.workspace }}/build
+
+      - name: Install
+        run: cmake --build . --target install
         working-directory: ${{ github.workspace }}/build
