@@ -157,6 +157,8 @@ endif ()
 add_subdirectory(packages)
 if ( BUILD_TESTS )
   project(libftdi1 C CXX)
+  find_package(Boost COMPONENTS unit_test_framework REQUIRED)
+  enable_testing()
   add_subdirectory(test)
 endif ()
 

@@ -1,7 +1,3 @@
-find_package(Boost COMPONENTS unit_test_framework REQUIRED)
-
-enable_testing()
-
 set(cpp_tests basic.cpp baudrate.cpp)
 
 add_executable(test_libftdi1 ${cpp_tests})
