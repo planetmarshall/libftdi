@@ -32,13 +32,11 @@ jobs:
         with:
           python-version: 3.8
 
-      - name: Install Windows Dependencies
+      - name: Install Windows Prerequisites
         if: matrix.os == 'windows-2019'
         run: |
             choco install pkgconfiglite
-            dir C:\ProgramData\chocolatey\lib\pkgconfiglite\tools
-            dir C:\ProgramData\chocolatey\lib\pkgconfiglite\tools\bin
-        shell: pwsh
+            echo "PKG_CONFIG=C:/ProgramData/chocolatey/bin/pkg-config" >> $GITHUB_ENV
 
       - name: Install Conan and Dependencies
         run: |
@@ -67,6 +65,7 @@ jobs:
           fix_path() {
             echo $1 | sed 's|\\|/|g'
           }
+
           cmake .. \
             -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
             -DCMAKE_MODULE_PATH="$(fix_path $GITHUB_WORKSPACE/build)" \
