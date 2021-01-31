@@ -55,10 +55,11 @@ jobs:
           then
             SHARED=ON
           fi
+          WORKSPACE=$(echo "${GITHUB_WORKSPACE}" | sed 's|\\|/|g')
           cmake .. \
             -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
-            -DCMAKE_MODULE_PATH="$GITHUB_WORKSPACE/build" \
-            -DCMAKE_INSTALL_PREFIX="$GITHUB_WORKSPACE/install" \
+            -DCMAKE_MODULE_PATH="$WORKSPACE/build" \
+            -DCMAKE_INSTALL_PREFIX="$WORKSPACE/install" \
             -DBUILD_SHARED_LIBS=$SHARED \
             -DBUILD_TESTS=ON \
             -DFTDIPP=ON
