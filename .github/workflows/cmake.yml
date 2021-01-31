@@ -51,12 +51,15 @@ jobs:
           cmake_find_package
           EOF
           conan install ${GITHUB_WORKSPACE}/build/conanfile.txt -if build ${{ matrix.conan-settings }}
+          rm ${GITHUB_WORKSPACE}/build/Findlibusb.cmake
+          rm ${GITHUB_WORKSPACE}/build/Findlibconfuse.cmake
 
       - name: Configure CMake
         run: |
           fix_path() {
             echo $1 | sed 's|\\|/|g'
           }
+          find / -name pkg-config -print 2>/dev/null
           cmake .. \
             -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
             -DCMAKE_MODULE_PATH="$(fix_path $GITHUB_WORKSPACE/build)" \
