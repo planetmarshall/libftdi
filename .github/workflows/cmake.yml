@@ -32,6 +32,12 @@ jobs:
         with:
           python-version: 3.8
 
+      - name: Install Windows Dependencies
+        if: matrix.os == 'windows-2019'
+        run: |
+            choco install pkgconfiglite
+        shell: pwsh
+
       - name: Install Conan and Dependencies
         run: |
           python -m pip install --upgrade pip
@@ -59,7 +65,6 @@ jobs:
           fix_path() {
             echo $1 | sed 's|\\|/|g'
           }
-          find / -name pkg-config -print 2>/dev/null
           cmake .. \
             -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
             -DCMAKE_MODULE_PATH="$(fix_path $GITHUB_WORKSPACE/build)" \
