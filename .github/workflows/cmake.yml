@@ -36,6 +36,8 @@ jobs:
         if: matrix.os == 'windows-2019'
         run: |
             choco install pkgconfiglite
+            dir C:\ProgramData\chocolatey\lib\pkgconfiglite\tools
+            dir C:\ProgramData\chocolatey\lib\pkgconfiglite\tools\bin
         shell: pwsh
 
       - name: Install Conan and Dependencies
