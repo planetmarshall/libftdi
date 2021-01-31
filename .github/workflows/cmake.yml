@@ -19,6 +19,10 @@ jobs:
         include:
           - os: ubuntu-18.04
             conan-settings: -s compiler.libcxx=libstdc++11
+          - shared: shared
+            build_shared: ON
+          - shared: static
+            build_shared: OFF
 
     steps:
       - uses: actions/checkout@v2
@@ -50,22 +54,19 @@ jobs:
 
       - name: Configure CMake
         run: |
-          SHARED=OFF
-          if [[ ${{ matrix.shared }} == ON ]]
-          then
-            SHARED=ON
-          fi
-          WORKSPACE=$(echo "${GITHUB_WORKSPACE}" | sed 's|\\|/|g')
+          fix_path() {
+            echo $1 | sed 's|\\|/|g'
+          }
           cmake .. \
             -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
-            -DCMAKE_MODULE_PATH="$WORKSPACE/build" \
-            -DCMAKE_INSTALL_PREFIX="$WORKSPACE/install" \
-            -DBUILD_SHARED_LIBS=$SHARED \
+            -DCMAKE_MODULE_PATH="$(fix_path $GITHUB_WORKSPACE/build)" \
+            -DCMAKE_INSTALL_PREFIX="$(fix_path $GITHUB_WORKSPACE/install)" \
+            -DBUILD_SHARED_LIBS=$BUILD_SHARED \
             -DBUILD_TESTS=ON \
             -DFTDIPP=ON
+        working-directory: ${{ github.workspace }}/build
         env:
           PKG_CONFIG_PATH: ${{ github.workspace }}/build
-        working-directory: ${{ github.workspace }}/build
 
       - name: Build
         run: cmake --build . --config $BUILD_TYPE
