@@ -63,6 +63,7 @@
 #ifndef _UNISTD_H_
 #define	_UNISTD_H_
 
+#include <sys/cdefs.h>
 #include <sys/types.h>
 
 int	 getopt(int, char * const [], const char *);

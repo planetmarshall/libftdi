@@ -61,8 +61,8 @@ getopt(int nargc, char * const nargv[], const char *ostr)
 	static const char *place = EMSG;	/* option letter processing */
 	char *oli;				/* option letter list index */
 
-	_DIAGASSERT(nargv != NULL);
-	_DIAGASSERT(ostr != NULL);
+	assert(nargv != NULL);
+	assert(ostr != NULL);
 
 	if (optreset || *place == 0) {		/* update scanning pointer */
 		optreset = 0;
