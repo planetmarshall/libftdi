@@ -9,11 +9,14 @@ add_executable(baud_test baud_test.c)
 add_executable(stream_test stream_test.c)
 add_executable(eeprom eeprom.c)
 add_executable(async async.c)
-if(NOT MINGW)
-    add_executable(purge_test purge_test.c)
-endif(NOT MINGW)
 
 find_package(LibFTDI REQUIRED)
+
+if(NOT MINGW AND NOT MSVC)
+    add_executable(purge_test purge_test.c)
+	target_link_libraries(purge_test PRIVATE LibFTDI::ftdi1)
+endif()
+
 
 target_link_libraries(simple PRIVATE LibFTDI::ftdi1)
 target_link_libraries(bitbang PRIVATE LibFTDI::ftdi1)
@@ -26,9 +29,6 @@ target_link_libraries(baud_test PRIVATE LibFTDI::ftdi1)
 target_link_libraries(stream_test PRIVATE LibFTDI::ftdi1)
 target_link_libraries(eeprom PRIVATE LibFTDI::ftdi1)
 target_link_libraries(async PRIVATE LibFTDI::ftdi1)
-if(NOT MINGW)
-    target_link_libraries(purge_test PRIVATE LibFTDI::ftdi1)
-endif(NOT MINGW)
 
 if( FTDIPP )
 	add_executable(find_all_pp find_all_pp.cpp)

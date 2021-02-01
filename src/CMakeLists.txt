@@ -40,6 +40,9 @@ if (MSVC)
     target_sources(ftdi1 PRIVATE 
     posix/getopt.c
     posix/usleep_win.c
+    posix/getprogname.c
+    posix/gettimeofday.c
+    posix/getoptlong.c
     )
 endif()
 
