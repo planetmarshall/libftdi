@@ -33,6 +33,10 @@ target_include_directories(ftdi1 PUBLIC
         $<INSTALL_INTERFACE:include/libftdi1>
         )
 if (MSVC)
+    # POSIX replacement functions for MSVC. Majority stripped-down versions from MINIX
+    # gettimeofday implementation from https://www.postgresql.org/
+    # usleep from // From https://gist.github.com/ngryman/6482577
+    # remaining implementations from https://github.com/Stichting-MINIX-Research-Foundation/minix
 	target_include_directories(ftdi1 PUBLIC
         	$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/posix>
         	$<INSTALL_INTERFACE:include/libftdi1/posix>
