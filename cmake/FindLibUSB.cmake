@@ -2,7 +2,7 @@ find_package(PkgConfig)
 pkg_check_modules(PC_LibUSB libusb-1.0)
 
 find_path(LibUSB_INCLUDE_DIR libusb.h PATH_SUFFIXES libusb-1.0 PATHS ${PC_LibUSB_INCLUDE_DIRS})
-find_library(LibUSB_LIBRARY NAMES usb-1.0 PATHS ${PC_LibUSB_LIBRARY_DIRS})
+find_library(LibUSB_LIBRARY NAMES libusb-1.0 usb-1.0 PATHS ${PC_LibUSB_LIBRARY_DIRS})
 mark_as_advanced(LibUSB_INCLUDE_DIR LibUSB_LIBRARY)
 
 include(FindPackageHandleStandardArgs)
