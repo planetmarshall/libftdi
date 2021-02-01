@@ -37,6 +37,10 @@ if (MSVC)
         	$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/posix>
         	$<INSTALL_INTERFACE:include/libftdi1/posix>
         )
+    target_sources(ftdi1 PRIVATE 
+    posix/getopt.c
+    posix/usleep_win.c
+    )
 endif()
 
 math(EXPR VERSION_FIXUP "${MAJOR_VERSION} + 1")    # Compatibility with previous releases

@@ -1,4 +1,6 @@
 project(libftdi1 C)
+cmake_policy(VERSION 3.12)
+cmake_policy(SET CMP0054 NEW)
 
 set(MAJOR_VERSION 1)
 set(MINOR_VERSION 5)
