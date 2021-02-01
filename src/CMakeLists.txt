@@ -32,6 +32,12 @@ target_include_directories(ftdi1 PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
         $<INSTALL_INTERFACE:include/libftdi1>
         )
+if (MSVC)
+	target_include_directories(ftdi1 PUBLIC
+        	$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/posix>
+        	$<INSTALL_INTERFACE:include/libftdi1/posix>
+        )
+endif()
 
 math(EXPR VERSION_FIXUP "${MAJOR_VERSION} + 1")    # Compatibility with previous releases
 set_target_properties(ftdi1 PROPERTIES VERSION ${VERSION_FIXUP}.${MINOR_VERSION}.0 SOVERSION 2)

@@ -1,0 +1,4 @@
+#ifndef FTDI_POSIX_UNISTD_H
+#define FTDI_POSIX_UNISTD_H
+
+#endif // FTDI_POSIX_UNISTD_H
