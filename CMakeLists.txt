@@ -5,7 +5,7 @@ set(MINOR_VERSION 5)
 set(PACKAGE libftdi1)
 set(VERSION_STRING ${MAJOR_VERSION}.${MINOR_VERSION})
 set(VERSION ${VERSION_STRING})
-list(PREPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
+list(PREPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
 if("${CMAKE_BUILD_TYPE}" STREQUAL "")
    set(CMAKE_BUILD_TYPE     RelWithDebInfo)
@@ -103,7 +103,7 @@ if ( WIN32 )
   set ( CPACK_NSIS_MODIFY_PATH             ON )
 endif ()
 
-set(CPACK_RESOURCE_FILE_LICENSE        ${CMAKE_SOURCE_DIR}/LICENSE)
+set(CPACK_RESOURCE_FILE_LICENSE        ${CMAKE_CURRENT_SOURCE_DIR}/LICENSE)
 
 set(CPACK_SOURCE_GENERATOR             TGZ)
 set(CPACK_SOURCE_IGNORE_FILES          "\\\\.git;~$;build/")
@@ -174,8 +174,8 @@ if(${WIN32})
    set(libdir      ${CMAKE_INSTALL_PREFIX}/bin)
 endif(${WIN32})
 
-configure_file(${CMAKE_SOURCE_DIR}/libftdi1.pc.in ${CMAKE_BINARY_DIR}/libftdi1.pc @ONLY)
-configure_file(${CMAKE_SOURCE_DIR}/libftdipp1.pc.in ${CMAKE_BINARY_DIR}/libftdipp1.pc @ONLY)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/libftdi1.pc.in ${CMAKE_BINARY_DIR}/libftdi1.pc @ONLY)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/libftdipp1.pc.in ${CMAKE_BINARY_DIR}/libftdipp1.pc @ONLY)
 install(FILES ${CMAKE_BINARY_DIR}/libftdi1.pc ${CMAKE_BINARY_DIR}/libftdipp1.pc
         DESTINATION lib${LIB_SUFFIX}/pkgconfig)
 
