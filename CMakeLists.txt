@@ -46,6 +46,11 @@ if (FTDIPP)
   find_package(Boost REQUIRED)
 endif()
 
+if (APPLE)
+    find_library(APPLE_CF CoreFoundation)
+    find_library(APPLE_IOK IOKit)
+endif()
+
 # Set components
 set(CPACK_COMPONENTS_ALL sharedlibs staticlibs headers)
 set(CPACK_COMPONENT_SHAREDLIBS_DISPLAY_NAME "Shared libraries")
