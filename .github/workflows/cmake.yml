@@ -46,7 +46,7 @@ jobs:
           pkg_config
           cmake_find_package
           EOF
-          conan install ${GITHUB_WORKSPACE}/build/conanfile.txt -if build ${{ matrix.conan-settings }}
+          conan install ${GITHUB_WORKSPACE}/build/conanfile.txt -if build ${{ matrix.conan-settings }} --build missing
 
       - name: Configure CMake
         run: |
